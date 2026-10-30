@@ -1,0 +1,26 @@
+# Build outputs (regenerate with: python3 build.py)
+dist/
+build/
+qa-shots/
+*.zip
+
+# Dependencies / environments
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.playwright/
+
+# Environment & local config — never commit secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.secrets/
+.vscode/
+.idea/
+*.local
+.DS_Store
+Thumbs.db

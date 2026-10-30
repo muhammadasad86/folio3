@@ -1,0 +1,4 @@
+-r requirements.txt
+playwright>=1.40   # qa.py and tools/figma_*.py (then: playwright install chromium)
+numpy
+matplotlib       # tools/gen_globe.py, tools/trim_logos.py
