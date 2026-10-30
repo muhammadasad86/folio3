@@ -20,6 +20,12 @@ folio3/
 
 ---
 
+## Live preview
+
+https://muhammadasad86.github.io/folio3/ (Hero A) · https://muhammadasad86.github.io/folio3/index-hero-b.html (Hero B)
+
+Every push to `main` rebuilds the site (`.github/workflows/preview.yml`) and publishes `dist/` to the `gh-pages` branch, which GitHub Pages serves.
+
 ## 0. Build it (after cloning)
 
 `dist/` is generated and not committed. Requires Python 3.9+ and Pillow:
