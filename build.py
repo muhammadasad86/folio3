@@ -818,8 +818,8 @@ def contact():
     fh = ""
     for fid, label, typ, req, full, ac in fields:
         star = "*" if req else ""
-        ctl = (f'<textarea id="f-{fid}" name="{fid}" placeholder=" " rows="3" {"required" if req else ""} aria-describedby="e-{fid}"></textarea>' if typ == "textarea"
-               else f'<input id="f-{fid}" name="{fid}" type="{typ}" placeholder=" " autocomplete="{ac}" {"required" if req else ""} aria-describedby="e-{fid}">')
+        ctl = (f'<textarea id="f-{fid}" placeholder=" " rows="3" autocomplete="off" {"required" if req else ""} aria-describedby="e-{fid}"></textarea>' if typ == "textarea"
+               else f'<input id="f-{fid}" type="{typ}" placeholder=" " autocomplete="off" {"required" if req else ""} aria-describedby="e-{fid}">')
         fh += f'<div class="field{" field--full" if full else ""}">{ctl}<label for="f-{fid}">{e(label)}{star}</label><span class="field__err" id="e-{fid}"></span></div>'
     return f'''
 <section class="section" id="contact" aria-labelledby="contact-title">
@@ -832,9 +832,9 @@ def contact():
     <div class="form-card" id="project-form" data-reveal="fade">
       <h3>Interested in Soaring High<br>and Thriving with Success?</h3>
       <p>Start Your Success Journey With Folio3 Today!</p>
-      <form id="contact-form" novalidate>
+      <form id="contact-form" action="#" novalidate data-demo-form aria-describedby="demo-note">
         <div class="form-grid">{fh}</div>
-        <p class="form-note">Preview build — this form validates but does not send.</p>
+        <p class="form-note" id="demo-note">Demo form — this is an unofficial design preview. Nothing you type is sent, stored or shared.</p>
         <div style="margin-top:18px">{btn_submit("Submit")}</div>
       </form>
       <p class="form-success" tabindex="-1" role="status">Thanks! Your details passed validation. In this preview nothing was sent — the live form will connect to Folio3's CRM.</p>
@@ -859,10 +859,10 @@ def footer():
       <div><h4>Services</h4><ul class="footer__svc">{col(svc)}</ul></div>
       <div><h4>Support</h4><ul>{col(sup)}</ul></div>
       <div><h4>Stay Informed</h4>
-        <form class="subscribe" id="subscribe" novalidate><label class="sr-only" for="sub-email">Email address</label><input id="sub-email" type="email" placeholder="Email Address" autocomplete="email">
+        <form class="subscribe" id="subscribe" action="#" novalidate data-demo-form><label class="sr-only" for="sub-email">Email address</label><input id="sub-email" type="email" placeholder="Email Address" autocomplete="off">
         {btn_submit("Subscribe")}<span class="msg" aria-live="polite"></span></form></div>
     </div>
-    <div class="footer__bottom"><span>© <span data-year>2026</span> Folio3 Software Inc. All Rights Reserved.</span><span>Preview build — not for publication</span></div>
+    <div class="footer__bottom"><span>© <span data-year>2026</span> Folio3 Software Inc. All Rights Reserved.</span><span>Unofficial design preview hosted on GitHub Pages — not the official Folio3 website (folio3.com)</span></div>
   </div>
 </footer>'''
 
@@ -889,6 +889,11 @@ def practices_drawer():
 </div>'''
 
 # ---------------------------------------------------------------- Floating "Back to top" (appears after section 2)
+def preview_notice():
+    """Persistent, low-key disclosure: this GitHub Pages build is a design preview, not Folio3's production site."""
+    return ('<p class="preview-notice" role="note"><span class="preview-notice__dot" aria-hidden="true"></span>'
+            'Unofficial preview<span class="preview-notice__more"> · not folio3.com</span></p>')
+
 def to_top():
     return ('<a class="to-top" href="#top" aria-label="Back to top" tabindex="-1">'
             '<span class="to-top__icon"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
@@ -897,18 +902,18 @@ def to_top():
 def page():
     css = (ROOT / "src/styles.css").read_text()
     js = (ROOT / "src/main.js").read_text()
-    body = header() + '<main id="main">' + hero() + process() + industries() + ways() + solutions() + tech() + spotlight() + about() + stories() + clients() + testimonials() + talks() + contact() + "</main>" + footer() + practices_drawer() + to_top()
+    body = header() + '<main id="main">' + hero() + process() + industries() + ways() + solutions() + tech() + spotlight() + about() + stories() + clients() + testimonials() + talks() + contact() + "</main>" + footer() + practices_drawer() + to_top() + preview_notice()
     return f'''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Folio3 | AI Transformation for Every Function</title>
-<meta name="description" content="Lead the AI shift with Folio3 — your guide to secure, enterprise-ready AI. Software engineering, NetSuite, Microsoft Dynamics, ecommerce and AI solutions.">
+<title>Folio3 homepage redesign — unofficial design preview</title>
+<meta name="description" content="Unofficial design preview of a Folio3 homepage redesign (not the official website). Lead the AI shift with Folio3 — your guide to secure, enterprise-ready AI. Software engineering, NetSuite, Microsoft Dynamics, ecommerce and AI solutions.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://www.figma.com"><link rel="preconnect" href="https://cdn-aiml.folio3.site">
+<link rel="preconnect" href="https://cdn-aiml.folio3.site">
 <style>{css}</style>
 </head>
 <body>
@@ -941,7 +946,7 @@ if __name__ == "__main__":
     assert HERO_TAG in html
     variants = {"index.html": html,
                 "index-hero-b.html": html.replace(HERO_TAG, HERO_TAG.replace('class="hero"', 'class="hero" data-hero-fx="grid"'), 1)
-                                         .replace("<title>Folio3 | ", "<title>Folio3 (Hero B) | ", 1)}
+                                         .replace("<title>Folio3 homepage redesign", "<title>Folio3 homepage redesign (Hero B)", 1)}
     for name, doc in variants.items():
         out = ROOT / "dist" / name
         out.write_text(doc)
